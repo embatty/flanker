@@ -34,8 +34,8 @@ def find_all_assemblies():
 
 def build_mash_sketch(assemblies, threads, temp_dir, sketch_size,kmer_length):
     mash_command = ['mash', 'sketch', '-p', str(threads), '-o', temp_dir + '/mash',
-                        '-s', str(sketch_size), 'k', str(kmer_length)] + assemblies
-
+                        '-s', str(sketch_size), '-k', str(kmer_length)] + assemblies
+    print(mash_command)
 
     subprocess.run(mash_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return temp_dir + '/mash.msh'

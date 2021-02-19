@@ -11,8 +11,8 @@ import numpy as np
 import subprocess
 from Bio import SeqIO
 from pathlib import Path
-from flanker.cluster import *
-from flanker.salami import *
+from cluster import *
+from salami import *
 import time
 import logging as log
 
