@@ -11,8 +11,8 @@ import numpy as np
 import subprocess
 from Bio import SeqIO
 from pathlib import Path
-from cluster import *
-from salami import *
+from flanker.cluster import *
+from flanker.salami import *
 import time
 import logging as log
 
@@ -263,7 +263,7 @@ def flank_fasta_file_lin(file, window,gene):
              gene_sense=str(gene_sense['STRAND'].iloc[0])
 
              # initialise dictionary of sequence splicing functions
-             
+
              d_lin = {(True, 'both'): lambda record, pos, w, l: record.seq[max(0,pos[0]-w):min(l, pos[1]+w)],
              (True, 'upstream'): lambda record, pos, w, l : record.seq[max(0,pos[0]-w):min(l,pos[1])],
              (True, 'downstream'): lambda record, pos, w, l : record.seq[pos[0]:min(l, pos[1]+w)],
