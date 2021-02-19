@@ -83,8 +83,10 @@ def get_arguments():
     cluster=parser.add_argument_group('clustering options')
     cluster.add_argument('-cl','--cluster',help='Turn on clustering mode?',action='store_true')
     cluster.add_argument('-o', '--outfile',action='store',help='Prefix for the clustering file',default='out')
-    cluster.add_argument('-tr', '--threshold',action='store',help='mash distance threshold for clustering',default="0.001"),
+    cluster.add_argument('-tr', '--threshold',action='store',help='mash distance threshold for clustering',default="0.001")
     cluster.add_argument('-p', '--threads',action='store',help='threads for mash to use',default='1')
+    cluster.add_argument('-k', '--kmer_length',action='store',help='kmer length for mash',default='21')
+    cluster.add_argument('-s', '--sketch_size',action='store',help='sketch size for mash',default='1000')
 
     args = parser.parse_args(None if sys.argv[1:] else ['-h'])
     return args
@@ -321,12 +323,12 @@ def flanker_main():
 
                 if args.cluster ==True and args.mode =='default':
 
-                    define_clusters(gene,i,args.threads,args.threshold,args.outfile)
+                    define_clusters(gene,i,args.threads,args.threshold,args.outfile,args.sketch_size,args.kmer_length)
                     flank_scrub()
 
             if args.cluster==True and args.mode=='mm':
 
-                define_clusters(gene,i,args.threads,args.threshold,args.outfile)
+                define_clusters(gene,i,args.threads,args.threshold,args.outfile,args.sketch_size,args.kmer_length)
                 log.info("Cleaning up")
                 flank_scrub()
 
@@ -339,13 +341,13 @@ def flanker_main():
                 flank_fasta_file_lin(args.fasta_file, args.window,gene.strip())
             if args.cluster ==True and args.mode =='default':
                 log.info("Performing clustering")
-                define_clusters(gene,args.window,args.threads,args.threshold,args.outfile)
+                define_clusters(gene,args.window,args.threads,args.threshold,args.outfile,args.sketch_size,args.kmer_length)
                 log.info("Cleaning up")
                 flank_scrub()
 
         if args.cluster==True and args.mode=='mm':
             log.info("Performing clustering")
-            define_clusters(gene,"mm",args.threads,args.threshold,args.outfile)
+            define_clusters(gene,"mm",args.threads,args.threshold,args.outfile,args.sketch_size,args.kmer_length)
             log.info("Cleaning up")
             flank_scrub()
 
